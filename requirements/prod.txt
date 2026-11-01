@@ -1,0 +1,19 @@
+﻿# =====================================================================
+# prod.txt
+# Paquetes para el SERVIDOR de producción (normalmente Linux).
+# Instalar con:  pip install -r requirements/prod.txt
+#
+# Qué va aquí: lo necesario para servir el proyecto a usuarios reales.
+# Qué NO va aquí: herramientas de desarrollo ni de pruebas.
+# =====================================================================
+# Incluye todos los paquetes de base.txt.
+-r base.txt
+# Servidor web de producción. Reemplaza a "manage.py runserver",
+# que solo sirve para desarrollo.
+# No funciona en Windows; se usa en el servidor Linux.
+gunicorn
+# Sirve los archivos estáticos (CSS, JS, imágenes del admin)
+# directamente desde Django, sin configurar Nginx para eso.
+whitenoise
+# Aquí también podrías agregar más adelante:
+# sentry-sdk     -> te avisa por correo cuando hay errores en producción

@@ -1,0 +1,46 @@
+﻿# =====================================================================
+# base.txt
+# Paquetes que el proyecto necesita para funcionar en CUALQUIER lugar:
+# tu computadora, el servidor de pruebas y el servidor de producción.
+#
+# Qué va aquí: solo lo que tu código importa directamente
+# (from django..., from rest_framework..., etc.).
+# Qué NO va aquí: herramientas de desarrollo, servidores web,
+# ni dependencias indirectas (las que pip instala solo).
+# =====================================================================
+
+# --- Núcleo ---
+# Framework web principal. "<5.3" evita que se actualice a una
+# versión mayor que podría romper el proyecto sin avisar.
+Django>=5.2,<5.3
+
+# --- API REST ---
+# Permite crear la API: serializers, vistas, permisos, paginación.
+djangorestframework>=3.16
+
+# Autenticación con tokens JWT (login que devuelve access/refresh token).
+# Instala por su cuenta PyJWT, por eso PyJWT no se lista.
+djangorestframework-simplejwt>=5.5
+
+# Permite que un frontend en otro dominio o puerto
+# (por ejemplo React en localhost:5173) pueda llamar a la API.
+django-cors-headers>=4.9
+
+# Filtros en la API por parámetros de URL,
+# por ejemplo /api/productos/?categoria=frutas
+django-filter>=25.1
+
+# --- Base de datos ---
+# Conector de Django con PostgreSQL. [binary] trae todo compilado,
+# así no necesitas instalar nada extra en Windows.
+psycopg[binary]>=3.2
+
+# --- Archivos e imágenes ---
+# Necesario para usar ImageField en los modelos
+# (fotos de productos, perfiles, etc.).
+pillow>=11.0
+
+# --- Configuración ---
+# Lee variables del archivo .env (SECRET_KEY, DEBUG, datos de la BD)
+# para no escribir contraseñas dentro de settings.py.
+python-decouple>=3.8
