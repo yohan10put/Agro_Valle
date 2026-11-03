@@ -56,7 +56,8 @@ npm run dev
 Agro_Valle/
 │── .venv/               # Entorno virtual de Python
 │── backend/             # Proyecto Django REST Framework
-│   ├── core/            # Configuración (settings, urls, wsgi)
+│   ├── config/          # Configuración principal (settings, urls, wsgi)
+│   ├── requirements/    # Requerimientos por entorno (base, dev, prod)
 │   ├── .env             # Variables de entorno y credenciales
 │   ├── .env.example     # Plantilla de variables
 │   └── manage.py
@@ -67,7 +68,6 @@ Agro_Valle/
 │   │   └── index.css    # Tailwind CSS
 │   ├── package.json
 │   └── vite.config.js
-│── requirements.txt     # Paquetes Python del proyecto
 │── .gitignore           # Exclusiones de Git (seguridad y dependencias)
 └── README.md            # Documentación general
 ```

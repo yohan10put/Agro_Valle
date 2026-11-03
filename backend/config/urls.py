@@ -26,7 +26,7 @@ def api_health(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
+
     # API Health Check
     path('api/', api_health, name='api_health'),
 

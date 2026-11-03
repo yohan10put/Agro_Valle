@@ -1,0 +1,27 @@
+﻿# =====================================================================
+# dev.txt
+# Paquetes para DESARROLLAR en tu computadora.
+# Instalar con:  py -m pip install -r requirements/dev.txt
+#
+# Qué va aquí: herramientas para depurar, probar y revisar el código.
+# Qué NO va aquí: nada que el proyecto necesite para funcionar;
+# eso va en base.txt.
+# =====================================================================
+
+# Incluye todos los paquetes de base.txt.
+-r base.txt
+
+# Barra lateral en el navegador que muestra las consultas SQL,
+# tiempos de carga y variables de cada página. Solo con DEBUG=True.
+django-debug-toolbar
+
+# Permite escribir y ejecutar tests de Django con pytest.
+pytest-django
+
+# Crea datos falsos para los tests (usuarios, productos, etc.)
+# sin escribirlos a mano uno por uno.
+factory-boy
+
+# Aquí también podrías agregar más adelante:
+# black / ruff   -> formatear y revisar el estilo del código
+# ipython        -> consola interactiva más cómoda

@@ -1,24 +1,31 @@
 # Entornos virtuales
 .venv/
 venv/
-ENV/
 env/
+ENV/
 
-# Python
+# Python & Django
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
-
-# Django
 *.log
 local_settings.py
+*.sqlite3
+*.sqlite3-journal
 db.sqlite3
 db.sqlite3-journal
 media/
+staticfiles/
 
-# Variables de entorno
+# Tests (pytest)
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Variables de entorno y secretos
 .env
+.env.*
 *.env
 !.env.example
 
@@ -26,9 +33,17 @@ media/
 node_modules/
 dist/
 dist-ssr/
+build/
 *.local
+npm-debug.log*
 
 # IDEs
 .vscode/
 .idea/
+*.swp
+*.swo
 
+# Sistema operativo
+Thumbs.db
+Desktop.ini
+.DS_Store
