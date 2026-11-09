@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block head_title %}Inicio — AgroValle{% endblock head_title %}
+
+{% block content %}
+<h1 class="h3 mb-1">Hola, {{ user.first_name|default:user.email }}</h1>
+<p class="text-secondary mb-4">Comprador</p>
+
+<div class="card border-0 shadow-sm"><div class="card-body">
+  <h2 class="h5">Cosecha disponible</h2>
+  <p class="text-secondary mb-0">Aquí verás la cosecha publicada por los productores y podrás hacer pedidos. (Paso 5)</p>
+</div></div>
+{% endblock content %}

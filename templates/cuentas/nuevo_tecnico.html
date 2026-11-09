@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block head_title %}Registrar técnico — AgroValle{% endblock head_title %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card border-0 shadow-sm"><div class="card-body p-4">
+      <h1 class="h4 mb-1">Registrar técnico</h1>
+      <p class="text-secondary small mb-4">
+        El técnico recibirá un correo para crear su propia contraseña.
+        Solo podrá editar el catálogo de cultivos.
+      </p>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% for campo in form %}
+          <div class="mb-3">
+            <label for="{{ campo.id_for_label }}" class="form-label">{{ campo.label }}</label>
+            {{ campo }}
+            {% for error in campo.errors %}
+              <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">Registrar y enviar invitación</button>
+      </form>
+    </div></div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card border-0 shadow-sm"><div class="card-body p-4">
+      <h2 class="h5 mb-3">Técnicos registrados</h2>
+      {% if tecnicos %}
+        <ul class="list-group list-group-flush">
+          {% for perfil in tecnicos %}
+            <li class="list-group-item px-0">
+              <div class="fw-medium">{{ perfil.usuario.get_full_name }}</div>
+              <div class="small text-secondary">{{ perfil.usuario.email }}{% if perfil.telefono %} · {{ perfil.telefono }}{% endif %}</div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-secondary mb-0">Todavía no hay técnicos registrados.</p>
+      {% endif %}
+    </div></div>
+  </div>
+</div>
+{% endblock content %}

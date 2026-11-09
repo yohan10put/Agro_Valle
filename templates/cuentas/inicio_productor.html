@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block head_title %}Inicio — AgroValle{% endblock head_title %}
+
+{% block content %}
+<h1 class="h3 mb-1">Hola, {{ user.first_name|default:user.email }}</h1>
+<p class="text-secondary mb-4">Productor · {{ perfil.comunidad }}</p>
+
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
+      <h2 class="h5">Mis siembras</h2>
+      <p class="text-secondary mb-0">Aquí verás tus cultivos, en qué etapa van y qué aplicar. (Paso 4)</p>
+    </div></div>
+  </div>
+  <div class="col-md-6">
+    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
+      <h2 class="h5">Vender mi cosecha</h2>
+      <p class="text-secondary mb-0">Publica lo que cosechaste para que los compradores te contacten. (Paso 5)</p>
+    </div></div>
+  </div>
+</div>
+{% endblock content %}

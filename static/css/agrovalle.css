@@ -1,0 +1,75 @@
+/* Colores de AgroValle */
+.barra-agrovalle {
+  background-color: #2e7d32;
+}
+
+/* Formularios de allauth (login, registro, contraseña) con estilo similar a Bootstrap */
+.form-allauth h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-allauth label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.form-allauth input[type="text"],
+.form-allauth input[type="email"],
+.form-allauth input[type="password"],
+.form-allauth input[type="tel"],
+.form-allauth select,
+.form-allauth textarea {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-allauth input[type="radio"] {
+  margin-right: 0.35rem;
+}
+
+.form-allauth ul:has(input[type="radio"]),
+.form-allauth div:has(> label > input[type="radio"]) {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0.75rem;
+}
+
+.form-allauth .helptext,
+.form-allauth small {
+  display: block;
+  color: #6c757d;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-allauth ul.errorlist {
+  color: #b02a37;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0.5rem;
+}
+
+.form-allauth form button,
+.form-allauth form [type="submit"] {
+  background-color: #2e7d32;
+  color: #fff;
+  border: 0;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.375rem;
+}
+
+.form-allauth form button:hover,
+.form-allauth form [type="submit"]:hover {
+  background-color: #1b5e20;
+}
+
+.form-allauth a {
+  color: #2e7d32;
+}

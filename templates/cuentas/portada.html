@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-5 text-center">
+  <h1 class="display-6 fw-semibold mb-3">AgroValle</h1>
+  <p class="lead text-secondary mb-4">
+    Acompañamos tu cultivo etapa por etapa, con recomendaciones claras,
+    y te ayudamos a vender tu cosecha.
+  </p>
+  <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
+    <a href="{% url 'account_signup' %}" class="btn btn-success btn-lg">Crear cuenta</a>
+    <a href="{% url 'account_login' %}" class="btn btn-outline-success btn-lg">Iniciar sesión</a>
+  </div>
+</div>
+
+<div class="row g-3 mt-2">
+  <div class="col-md-4">
+    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
+      <h2 class="h5">Productores</h2>
+      <p class="mb-0 text-secondary">Registra tus siembras y recibe qué hacer en cada etapa, con las dosis exactas.</p>
+    </div></div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
+      <h2 class="h5">Compradores</h2>
+      <p class="mb-0 text-secondary">Encuentra papa, maíz, zanahoria y más, directo del productor.</p>
+    </div></div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
+      <h2 class="h5">Técnicos</h2>
+      <p class="mb-0 text-secondary">Mantienen actualizada la información de cultivos, etapas y recomendaciones.</p>
+    </div></div>
+  </div>
+</div>
+{% endblock content %}

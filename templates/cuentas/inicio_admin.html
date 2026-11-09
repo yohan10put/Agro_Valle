@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block head_title %}Administración — AgroValle{% endblock head_title %}
+
+{% block content %}
+<h1 class="h3 mb-4">Administración de AgroValle</h1>
+
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
+      <h2 class="h5">Registrar técnico</h2>
+      <p class="text-secondary">Da de alta a un técnico; recibirá un correo para crear su contraseña.</p>
+      <a href="{% url 'nuevo_tecnico' %}" class="btn btn-success">Registrar técnico</a>
+    </div></div>
+  </div>
+  <div class="col-md-6">
+    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
+      <h2 class="h5">Panel de gestión</h2>
+      <p class="text-secondary">Usuarios, perfiles y catálogo de cultivos.</p>
+      <a href="{% url 'admin:index' %}" class="btn btn-outline-success">Abrir panel</a>
+    </div></div>
+  </div>
+</div>
+{% endblock content %}
