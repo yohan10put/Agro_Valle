@@ -1,13 +1,217 @@
 {% extends "base.html" %}
 
-{% block head_title %}Inicio — AgroValle{% endblock head_title %}
+{% block head_title %}Mercado de Cosecha{% endblock head_title %}
 
 {% block content %}
-<h1 class="h3 mb-1">Hola, {{ user.first_name|default:user.email }}</h1>
-<p class="text-secondary mb-4">Comprador</p>
+<!-- Encabezado del Comprador -->
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <div class="d-flex align-items-center gap-2 mb-1">
+      <h1 class="h3 fw-bold mb-0">Hola, {{ user.first_name|default:user.username }}</h1>
+      <span class="badge-rol comprador">Comprador</span>
+    </div>
+    <p class="text-muted small mb-0">Encuentra cosecha fresca directo de parcelas de los valles cruceños.</p>
+  </div>
+  <div>
+    <span class="badge bg-light text-dark border px-3 py-2 small">
+      <i class="bi bi-shield-check text-success me-1"></i> Productores verificados
+    </span>
+  </div>
+</div>
 
-<div class="card border-0 shadow-sm"><div class="card-body">
-  <h2 class="h5">Cosecha disponible</h2>
-  <p class="text-secondary mb-0">Aquí verás la cosecha publicada por los productores y podrás hacer pedidos. (Paso 5)</p>
-</div></div>
+<!-- Filtros y Búsqueda -->
+<div class="card p-3 p-md-4 border-0 shadow-sm mb-4" id="cosecha">
+  <div class="row g-3 align-items-center">
+    <div class="col-md-5">
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0 text-muted">
+          <i class="bi bi-search"></i>
+        </span>
+        <input type="text" class="form-control border-start-0 ps-0" id="filtroCultivo" 
+               placeholder="Buscar por cultivo (ej. papa, choclo, zanahoria)..." onkeyup="filtrarCosecha()">
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <select class="form-select" id="filtroComunidad" onchange="filtrarCosecha()">
+        <option value="">Todas las comunidades y valles</option>
+        <option value="Vallegrande">Vallegrande</option>
+        <option value="Comarapa">Comarapa</option>
+        <option value="Saipina">Saipina</option>
+        <option value="Mairana">Mairana</option>
+        <option value="Pampa Grande">Pampa Grande</option>
+      </select>
+    </div>
+    <div class="col-sm-6 col-md-3 text-sm-end">
+      <span class="small text-muted" id="contadorResultados">Mostrando 4 publicaciones</span>
+    </div>
+  </div>
+</div>
+
+<!-- Catálogo de Cosecha Disponible -->
+<div class="row g-4" id="gridCosecha">
+  <!-- Producto 1: Papa Huaycha -->
+  <div class="col-md-6 col-lg-4 item-cosecha" data-cultivo="papa huaycha" data-comunidad="Vallegrande">
+    <div class="card h-100 border-0 shadow-sm overflow-hidden av-card">
+      <div class="p-3 bg-light text-center border-bottom position-relative" style="background: linear-gradient(135deg, #FFF8E1 0%, #FFE082 100%);">
+        <span class="fs-1 d-block mb-1">🥔</span>
+        <span class="badge bg-success position-absolute top-0 start-0 m-3">Cosecha lista</span>
+      </div>
+      <div class="card-body p-4 d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-start mb-1">
+          <h2 class="h5 fw-bold text-dark mb-0">Papa Huaycha de Primera</h2>
+          <span class="fs-5 fw-bold text-success tabular-nums">Bs. 45 <small class="fs-6 text-muted">/ @</small></span>
+        </div>
+        <p class="small text-muted mb-2">Tubérculos limpios, seleccionados y listos para transporte.</p>
+
+        <div class="d-flex flex-column gap-1 small text-muted my-2 p-2 rounded bg-light">
+          <div><i class="bi bi-box-seam me-1 text-primary"></i> <strong>Volumen:</strong> 80 arrobas disponibles</div>
+          <div><i class="bi bi-geo-alt-fill me-1 text-danger"></i> <strong>Zona:</strong> Guadalupe, Vallegrande</div>
+          <div><i class="bi bi-person me-1"></i> <strong>Productor:</strong> Juan Pérez</div>
+        </div>
+
+        <div class="mt-auto pt-3">
+          <a href="https://wa.me/59170000000?text=Hola%20Juan,%20vi%20tu%20publicación%20de%20Papa%20Huaycha%20en%20AgroValle." 
+             target="_blank" class="btn btn-av-accent w-100 shadow-sm">
+            <i class="bi bi-whatsapp me-1"></i> Hacer pedido por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Producto 2: Maíz Choclero -->
+  <div class="col-md-6 col-lg-4 item-cosecha" data-cultivo="maiz choclo choclero" data-comunidad="Comarapa">
+    <div class="card h-100 border-0 shadow-sm overflow-hidden av-card">
+      <div class="p-3 bg-light text-center border-bottom position-relative" style="background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);">
+        <span class="fs-1 d-block mb-1">🌽</span>
+        <span class="badge bg-success position-absolute top-0 start-0 m-3">Cosecha lista</span>
+      </div>
+      <div class="card-body p-4 d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-start mb-1">
+          <h2 class="h5 fw-bold text-dark mb-0">Choclo Dulce de Valle</h2>
+          <span class="fs-5 fw-bold text-success tabular-nums">Bs. 60 <small class="fs-6 text-muted">/ 100 u</small></span>
+        </div>
+        <p class="small text-muted mb-2">Choclo fresco recién cosechado, grano lechoso y tierno.</p>
+
+        <div class="d-flex flex-column gap-1 small text-muted my-2 p-2 rounded bg-light">
+          <div><i class="bi bi-box-seam me-1 text-primary"></i> <strong>Volumen:</strong> 1,500 unidades</div>
+          <div><i class="bi bi-geo-alt-fill me-1 text-danger"></i> <strong>Zona:</strong> San Isidro, Comarapa</div>
+          <div><i class="bi bi-person me-1"></i> <strong>Productor:</strong> Faustino Quispe</div>
+        </div>
+
+        <div class="mt-auto pt-3">
+          <a href="https://wa.me/59171112233?text=Hola,%20me%20interesa%20tu%20cosecha%20de%20choclo%20en%20AgroValle." 
+             target="_blank" class="btn btn-av-accent w-100 shadow-sm">
+            <i class="bi bi-whatsapp me-1"></i> Hacer pedido por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Producto 3: Zanahoria -->
+  <div class="col-md-6 col-lg-4 item-cosecha" data-cultivo="zanahoria" data-comunidad="Saipina">
+    <div class="card h-100 border-0 shadow-sm overflow-hidden av-card">
+      <div class="p-3 bg-light text-center border-bottom position-relative" style="background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);">
+        <span class="fs-1 d-block mb-1">🥕</span>
+        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-3">Cosecha en 5 días</span>
+      </div>
+      <div class="card-body p-4 d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-start mb-1">
+          <h2 class="h5 fw-bold text-dark mb-0">Zanahoria Seleccionada</h2>
+          <span class="fs-5 fw-bold text-success tabular-nums">Bs. 35 <small class="fs-6 text-muted">/ bolsa</small></span>
+        </div>
+        <p class="small text-muted mb-2">Zanahoria lavada, tamaño uniforme sin rajaduras ni defectos.</p>
+
+        <div class="d-flex flex-column gap-1 small text-muted my-2 p-2 rounded bg-light">
+          <div><i class="bi bi-box-seam me-1 text-primary"></i> <strong>Volumen:</strong> 120 bolsas (20 kg c/u)</div>
+          <div><i class="bi bi-geo-alt-fill me-1 text-danger"></i> <strong>Zona:</strong> Valle de Saipina</div>
+          <div><i class="bi bi-person me-1"></i> <strong>Productor:</strong> Rogelio Flores</div>
+        </div>
+
+        <div class="mt-auto pt-3">
+          <a href="https://wa.me/59172223344?text=Hola,%20quisiera%20reservar%20bolsas%20de%20zanahoria%20desde%20AgroValle." 
+             target="_blank" class="btn btn-av-accent w-100 shadow-sm">
+            <i class="bi bi-whatsapp me-1"></i> Reservar pedido
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Producto 4: Arveja verde -->
+  <div class="col-md-6 col-lg-4 item-cosecha" data-cultivo="arveja vainita verde" data-comunidad="Mairana">
+    <div class="card h-100 border-0 shadow-sm overflow-hidden av-card">
+      <div class="p-3 bg-light text-center border-bottom position-relative" style="background: linear-gradient(135deg, #E0F2F1 0%, #B2DFDB 100%);">
+        <span class="fs-1 d-block mb-1">🫛</span>
+        <span class="badge bg-success position-absolute top-0 start-0 m-3">Cosecha lista</span>
+      </div>
+      <div class="card-body p-4 d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-start mb-1">
+          <h2 class="h5 fw-bold text-dark mb-0">Arveja en Vaina Criolla</h2>
+          <span class="fs-5 fw-bold text-success tabular-nums">Bs. 90 <small class="fs-6 text-muted">/ @</small></span>
+        </div>
+        <p class="small text-muted mb-2">Vaina fresca y llena, cosechada en la madrugada del día.</p>
+
+        <div class="d-flex flex-column gap-1 small text-muted my-2 p-2 rounded bg-light">
+          <div><i class="bi bi-box-seam me-1 text-primary"></i> <strong>Volumen:</strong> 35 arrobas</div>
+          <div><i class="bi bi-geo-alt-fill me-1 text-danger"></i> <strong>Zona:</strong> Bella Vista, Mairana</div>
+          <div><i class="bi bi-person me-1"></i> <strong>Productor:</strong> David Morales</div>
+        </div>
+
+        <div class="mt-auto pt-3">
+          <a href="https://wa.me/59173334455?text=Hola,%20me%20interesa%20la%20arveja%20publicada%20en%20AgroValle." 
+             target="_blank" class="btn btn-av-accent w-100 shadow-sm">
+            <i class="bi bi-whatsapp me-1"></i> Hacer pedido por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Estado vacío cuando no coinciden filtros -->
+<div id="sinResultados" class="av-empty-state my-4" style="display: none;">
+  <div class="av-empty-icon"><i class="bi bi-search"></i></div>
+  <h3 class="h5 fw-bold mb-1">No encontramos cosechas con esos filtros</h3>
+  <p class="text-muted small mb-3">Intenta buscar otro cultivo o cambiar la comunidad seleccionada.</p>
+  <button class="btn btn-outline-success btn-sm" onclick="limpiarFiltros()">
+    <i class="bi bi-arrow-counterclockwise me-1"></i> Ver todas las publicaciones
+  </button>
+</div>
 {% endblock content %}
+
+{% block extra_body %}
+<script>
+  function filtrarCosecha() {
+    var txt = document.getElementById('filtroCultivo').value.toLowerCase().trim();
+    var com = document.getElementById('filtroComunidad').value.toLowerCase().trim();
+    var items = document.querySelectorAll('.item-cosecha');
+    var visibles = 0;
+
+    items.forEach(function(item) {
+      var cultivo = item.getAttribute('data-cultivo').toLowerCase();
+      var comunidad = item.getAttribute('data-comunidad').toLowerCase();
+
+      var coincideCultivo = !txt || cultivo.includes(txt);
+      var coincideComunidad = !com || comunidad.includes(com);
+
+      if (coincideCultivo && coincideComunidad) {
+        item.style.display = 'block';
+        visibles++;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    document.getElementById('contadorResultados').textContent = 'Mostrando ' + visibles + ' publicaciones';
+    document.getElementById('sinResultados').style.display = visibles === 0 ? 'block' : 'none';
+  }
+
+  function limpiarFiltros() {
+    document.getElementById('filtroCultivo').value = '';
+    document.getElementById('filtroComunidad').value = '';
+    filtrarCosecha();
+  }
+</script>
+{% endblock extra_body %}

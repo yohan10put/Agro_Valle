@@ -8,9 +8,10 @@ class Perfil(models.Model):
     """Datos extra de cada usuario: su rol en el sistema y su contacto."""
 
     class Rol(models.TextChoices):
+        ADMINISTRADOR = 'administrador', 'Administrador'
+        TECNICO = 'tecnico', 'Técnico'
         PRODUCTOR = 'productor', 'Productor'
         COMPRADOR = 'comprador', 'Comprador'
-        TECNICO = 'tecnico', 'Técnico'
 
     usuario = models.OneToOneField(
         settings.AUTH_USER_MODEL,
@@ -36,6 +37,10 @@ class Perfil(models.Model):
     def __str__(self):
         nombre = self.usuario.get_full_name() or self.usuario.email
         return f'{nombre} ({self.get_rol_display()})'
+
+    @property
+    def es_administrador(self):
+        return self.rol == self.Rol.ADMINISTRADOR or self.usuario.is_superuser
 
     @property
     def es_productor(self):

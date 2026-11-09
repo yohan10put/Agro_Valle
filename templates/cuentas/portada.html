@@ -1,36 +1,132 @@
 {% extends "base.html" %}
 
+{% block head_title %}Tu cultivo etapa por etapa{% endblock head_title %}
+
 {% block content %}
-<div class="py-5 text-center">
-  <h1 class="display-6 fw-semibold mb-3">AgroValle</h1>
-  <p class="lead text-secondary mb-4">
-    Acompañamos tu cultivo etapa por etapa, con recomendaciones claras,
-    y te ayudamos a vender tu cosecha.
-  </p>
-  <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
-    <a href="{% url 'account_signup' %}" class="btn btn-success btn-lg">Crear cuenta</a>
-    <a href="{% url 'account_login' %}" class="btn btn-outline-success btn-lg">Iniciar sesión</a>
+<!-- Bloque Héroe de Portada -->
+<div class="row align-items-center py-4 py-lg-5 my-2">
+  <div class="col-lg-8 mx-auto text-center">
+    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 mb-3 rounded-pill" style="background-color: var(--av-primary-soft); color: var(--av-primary-dark); font-size: 13px; font-weight: 600;">
+      <i class="bi bi-geo-alt-fill"></i> Valles Cruceños · Santa Cruz, Bolivia
+    </div>
+    <h1 class="display-5 fw-bold mb-3" style="color: var(--av-primary-dark); letter-spacing: -0.02em;">
+      Tu cultivo, etapa por etapa
+    </h1>
+    <p class="lead mb-4 mx-auto" style="max-width: 640px; color: var(--av-text-muted); font-size: 18px;">
+      Acompañamos tu producción con recomendaciones técnicas precisas para papa, maíz y hortalizas, y te conectamos directo con el mercado para vender tu cosecha.
+    </p>
+    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+      <a href="{% url 'account_signup' %}" class="btn btn-lg btn-success shadow-sm px-4">
+        <i class="bi bi-person-plus-fill"></i> Crear cuenta gratis
+      </a>
+      <a href="{% url 'account_login' %}" class="btn btn-lg btn-outline-success px-4">
+        <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+      </a>
+    </div>
   </div>
 </div>
 
-<div class="row g-3 mt-2">
-  <div class="col-md-4">
-    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
-      <h2 class="h5">Productores</h2>
-      <p class="mb-0 text-secondary">Registra tus siembras y recibe qué hacer en cada etapa, con las dosis exactas.</p>
-    </div></div>
+<!-- Sección: Cómo funciona en 3 pasos -->
+<div class="py-5 my-3 border-top border-bottom">
+  <div class="text-center mb-5">
+    <span class="text-uppercase fw-bold text-success small" style="letter-spacing: 0.05em;">Fácil y práctico</span>
+    <h2 class="h2 fw-bold mt-1">¿Cómo funciona AgroValle?</h2>
+    <p class="text-muted mx-auto" style="max-width: 520px;">Diseñado para agricultores y compradores de los valles, sin complicaciones técnicas.</p>
   </div>
-  <div class="col-md-4">
-    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
-      <h2 class="h5">Compradores</h2>
-      <p class="mb-0 text-secondary">Encuentra papa, maíz, zanahoria y más, directo del productor.</p>
-    </div></div>
+
+  <div class="row g-4 justify-content-center">
+    <!-- Paso 1 -->
+    <div class="col-md-4">
+      <div class="card h-100 p-4 border-0 shadow-sm text-center">
+        <div class="av-kpi-icon earth mx-auto mb-3" style="width: 56px; height: 56px;">
+          <i class="bi bi-flower2"></i>
+        </div>
+        <span class="badge rounded-pill bg-light text-muted border mx-auto mb-2 px-3 py-1">Paso 1</span>
+        <h3 class="h5 fw-bold mb-2">Registra tu siembra</h3>
+        <p class="text-muted small mb-0">
+          Selecciona tu cultivo (papa, maíz, zanahoria u otros) y la fecha de inicio. El sistema calcula automáticamente el calendario de desarrollo.
+        </p>
+      </div>
+    </div>
+
+    <!-- Paso 2 -->
+    <div class="col-md-4">
+      <div class="card h-100 p-4 border-0 shadow-sm text-center">
+        <div class="av-kpi-icon primary mx-auto mb-3" style="width: 56px; height: 56px;">
+          <i class="bi bi-clipboard-check"></i>
+        </div>
+        <span class="badge rounded-pill bg-light text-muted border mx-auto mb-2 px-3 py-1">Paso 2</span>
+        <h3 class="h5 fw-bold mb-2">Recibe qué hacer en cada etapa</h3>
+        <p class="text-muted small mb-0">
+          En cada fase de crecimiento recibes indicaciones de riego, aporque y recomendaciones fitosanitarias con las dosis agronómicas exactas.
+        </p>
+      </div>
+    </div>
+
+    <!-- Paso 3 -->
+    <div class="col-md-4">
+      <div class="card h-100 p-4 border-0 shadow-sm text-center">
+        <div class="av-kpi-icon accent mx-auto mb-3" style="width: 56px; height: 56px;">
+          <i class="bi bi-shop"></i>
+        </div>
+        <span class="badge rounded-pill bg-light text-muted border mx-auto mb-2 px-3 py-1">Paso 3</span>
+        <h3 class="h5 fw-bold mb-2">Vende tu cosecha</h3>
+        <p class="text-muted small mb-0">
+          Publica el volumen cosechado. Los compradores verificados te contactan directamente por WhatsApp para coordinar el precio y la entrega.
+        </p>
+      </div>
+    </div>
   </div>
-  <div class="col-md-4">
-    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
-      <h2 class="h5">Técnicos</h2>
-      <p class="mb-0 text-secondary">Mantienen actualizada la información de cultivos, etapas y recomendaciones.</p>
-    </div></div>
+</div>
+
+<!-- Tarjetas de Roles -->
+<div class="py-4">
+  <div class="text-center mb-4">
+    <h2 class="h3 fw-bold">Una plataforma pensada para toda la comunidad</h2>
+  </div>
+
+  <div class="row g-4">
+    <!-- Rol Productor -->
+    <div class="col-md-4">
+      <div class="card h-100 p-4 border-0 shadow-sm" style="border-top: 4px solid var(--av-earth) !important;">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <i class="bi bi-flower2 fs-4" style="color: var(--av-earth);"></i>
+          <h3 class="h5 fw-bold mb-0">Productores</h3>
+        </div>
+        <p class="text-muted small mb-3">
+          Lleva el control de tus lotes y parcelas desde el teléfono. Nunca más olvides una fertilización obligatoria o una fecha de cosecha.
+        </p>
+        <span class="badge-rol productor mt-auto align-self-start">Seguimiento agronómico</span>
+      </div>
+    </div>
+
+    <!-- Rol Comprador -->
+    <div class="col-md-4">
+      <div class="card h-100 p-4 border-0 shadow-sm" style="border-top: 4px solid var(--av-accent) !important;">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <i class="bi bi-basket-fill fs-4" style="color: var(--av-carrot);"></i>
+          <h3 class="h5 fw-bold mb-0">Compradores</h3>
+        </div>
+        <p class="text-muted small mb-3">
+          Encuentra productos frescos directo de parcelas de Vallegrande, Comarapa, Saipina y Mairana, con calidad y precio justo.
+        </p>
+        <span class="badge-rol comprador mt-auto align-self-start">Comercialización directa</span>
+      </div>
+    </div>
+
+    <!-- Rol Técnico -->
+    <div class="col-md-4">
+      <div class="card h-100 p-4 border-0 shadow-sm" style="border-top: 4px solid var(--av-info) !important;">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <i class="bi bi-person-gear fs-4" style="color: var(--av-info);"></i>
+          <h3 class="h5 fw-bold mb-0">Técnicos</h3>
+        </div>
+        <p class="text-muted small mb-3">
+          Docentes y especialistas actualizan el catálogo de cultivos, etapas fenológicas, insumos y recomendaciones oficiales.
+        </p>
+        <span class="badge-rol tecnico mt-auto align-self-start">Asesoría especializada</span>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock content %}

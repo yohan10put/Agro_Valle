@@ -1,75 +1,536 @@
-/* Colores de AgroValle */
-.barra-agrovalle {
-  background-color: #2e7d32;
+/* ==========================================================================
+   AGROVALLE — SISTEMA DE DISEÑO (Design Tokens & UI Componentes)
+   Diseño accesible (WCAG 2.1 AA), tipografía Inter y paleta agrícola.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* --- Paleta de colores oficial --- */
+  --av-primary: #2E7D32;        /* Verde valle: principal, botones, éxito */
+  --av-primary-dark: #1B5E20;   /* Verde bosque: hover, títulos, rol Admin */
+  --av-primary-soft: #E8F5E9;   /* Verde brote: fondos suaves, chips */
+  --av-accent: #F9A825;         /* Amarillo maíz: ventas, cosecha, botón 'Hacer pedido' */
+  --av-accent-dark: #C68400;
+  --av-accent-text: #3E2C00;    /* Café oscuro: SIEMPRE texto sobre amarillo maíz */
+  --av-earth: #6D4C41;          /* Tierra: siembras, etapas, rol Productor */
+  --av-earth-soft: #EFEBE9;     /* Tierra clara: timeline de etapas */
+  --av-carrot: #E65100;         /* Zanahoria: acentos e iconos */
+  --av-info: #0277BD;           /* Azul cielo: info, riego, rol Técnico */
+  --av-info-soft: #E1F5FE;
+  --av-danger: #C62828;         /* Rojo: errores, plagas, eliminar */
+  --av-danger-soft: #FFEBEE;
+
+  /* --- Superficies y textos --- */
+  --av-text: #1C2B1E;           /* Texto principal (contraste 13,9:1) */
+  --av-text-muted: #4B5B4E;     /* Texto secundario (contraste 6,8:1) */
+  --av-bg: #F6F8F5;             /* Fondo general de páginas */
+  --av-surface: #FFFFFF;        /* Superficie de tarjetas y modales */
+  --av-border: #D7DED8;         /* Bordes de tarjetas y separadores */
+
+  /* --- Radios y sombras --- */
+  --av-radius-sm: 8px;          /* Botones, inputs, badges */
+  --av-radius-md: 12px;         /* Tarjetas estándar */
+  --av-radius-lg: 16px;         /* Modales y héroes */
+  --av-radius-full: 9999px;     /* Avatares y píldoras */
+  --av-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --av-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --av-shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+
+  /* --- Sobrescribir variables de Bootstrap 5.3 --- */
+  --bs-primary: var(--av-primary);
+  --bs-primary-rgb: 46, 125, 50;
+  --bs-success: var(--av-primary);
+  --bs-success-rgb: 46, 125, 50;
+  --bs-body-bg: var(--av-bg);
+  --bs-body-color: var(--av-text);
+  --bs-body-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --bs-border-color: var(--av-border);
 }
 
-/* Formularios de allauth (login, registro, contraseña) con estilo similar a Bootstrap */
+/* Base & Tipografía Inter */
+body {
+  font-family: var(--bs-body-font-family);
+  color: var(--av-text);
+  background-color: var(--av-bg);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--av-text);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+h1, .h1 {
+  font-size: 26px;
+}
+@media (min-width: 768px) {
+  h1, .h1 { font-size: 32px; }
+}
+
+h2, .h2 {
+  font-size: 21px;
+}
+@media (min-width: 768px) {
+  h2, .h2 { font-size: 24px; }
+}
+
+h3, .h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.text-muted, .text-secondary {
+  color: var(--av-text-muted) !important;
+}
+
+/* Indicadores y números tabulares */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   NAVEGACIÓN SUPERIOR (Navbar)
+   Alto contraste WCAG 2.1 AA (Blanco 100% sobre Verde Valle #2E7D32 = 5,1:1)
+   ========================================================================== */
+.barra-agrovalle {
+  background-color: var(--av-primary) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  padding: 0.65rem 0;
+}
+
+.barra-agrovalle .navbar-brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #FFFFFF !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.barra-agrovalle .navbar-brand i {
+  color: #A5D6A7;
+  font-size: 1.35rem;
+}
+
+/* Enlaces con blanco 100% para cumplir contraste */
+.barra-agrovalle .nav-link {
+  color: #FFFFFF !important;
+  font-weight: 500;
+  padding: 0.5rem 0.85rem !important;
+  border-radius: var(--av-radius-sm);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.barra-agrovalle .nav-link:hover,
+.barra-agrovalle .nav-link:focus {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF !important;
+}
+
+.barra-agrovalle .nav-link.active {
+  font-weight: 600;
+}
+.barra-agrovalle .nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 0.85rem;
+  right: 0.85rem;
+  height: 3px;
+  background-color: var(--av-accent);
+  border-radius: 2px;
+}
+
+/* Menú de usuario con Avatar */
+.av-user-dropdown .dropdown-toggle {
+  color: #FFFFFF !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.65rem !important;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: var(--av-radius-full);
+}
+.av-user-dropdown .dropdown-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.av-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--av-primary-dark);
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ==========================================================================
+   NAVEGACIÓN MÓVIL INFERIOR FIJA
+   ========================================================================== */
+.av-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--av-surface);
+  border-top: 1px solid var(--av-border);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
+  z-index: 1040;
+  display: flex;
+  justify-content: space-around;
+  padding: 0.35rem 0.25rem calc(0.35rem + env(safe-area-inset-bottom));
+}
+
+.av-bottom-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--av-text-muted);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--av-radius-sm);
+  transition: color 0.15s ease;
+  min-width: 60px;
+}
+
+.av-bottom-item i {
+  font-size: 1.25rem;
+  margin-bottom: 2px;
+}
+
+.av-bottom-item.active,
+.av-bottom-item:hover {
+  color: var(--av-primary);
+  font-weight: 600;
+}
+
+@media (max-width: 767.98px) {
+  body.has-bottom-nav {
+    padding-bottom: 72px;
+  }
+}
+
+/* ==========================================================================
+   BOTONES Y ACCIONES (Accesibles >= 44px)
+   ========================================================================== */
+.btn {
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: var(--av-radius-sm);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.15rem;
+  transition: all 0.2s ease;
+}
+
+.btn i {
+  font-size: 1.1rem;
+}
+
+/* Botón primario verde valle */
+.btn-success,
+.btn-av-primary {
+  background-color: var(--av-primary) !important;
+  border-color: var(--av-primary) !important;
+  color: #FFFFFF !important;
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-av-primary:hover,
+.btn-av-primary:focus {
+  background-color: var(--av-primary-dark) !important;
+  border-color: var(--av-primary-dark) !important;
+  box-shadow: 0 2px 6px rgba(27, 94, 32, 0.35) !important;
+}
+
+/* Botón secundario contorno */
+.btn-outline-success,
+.btn-av-secondary {
+  color: var(--av-primary) !important;
+  border-color: var(--av-primary) !important;
+  background-color: transparent !important;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:focus,
+.btn-av-secondary:hover,
+.btn-av-secondary:focus {
+  background-color: var(--av-primary-soft) !important;
+  color: var(--av-primary-dark) !important;
+  border-color: var(--av-primary-dark) !important;
+}
+
+/* Botón destacado de venta (Amarillo maíz con café oscuro, contraste 6,8:1) */
+.btn-av-accent {
+  background-color: var(--av-accent) !important;
+  border-color: var(--av-accent) !important;
+  color: var(--av-accent-text) !important;
+  font-weight: 700;
+}
+
+.btn-av-accent:hover,
+.btn-av-accent:focus {
+  background-color: var(--av-accent-dark) !important;
+  border-color: var(--av-accent-dark) !important;
+  color: #1A1200 !important;
+  box-shadow: 0 2px 8px rgba(249, 168, 37, 0.4) !important;
+}
+
+/* Botón peligro */
+.btn-danger,
+.btn-av-danger {
+  background-color: var(--av-danger) !important;
+  border-color: var(--av-danger) !important;
+  color: #FFFFFF !important;
+}
+
+/* ==========================================================================
+   TARJETAS Y COMPONENTES
+   ========================================================================== */
+.card,
+.av-card {
+  background-color: var(--av-surface);
+  border: 1px solid var(--av-border);
+  border-radius: var(--av-radius-md);
+  box-shadow: var(--av-shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.av-card-clickable {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.av-card-clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--av-shadow-md);
+  border-color: #B0BEC5;
+  color: inherit;
+}
+
+/* Tarjeta KPI */
+.av-kpi-card {
+  background-color: var(--av-surface);
+  border: 1px solid var(--av-border);
+  border-radius: var(--av-radius-md);
+  padding: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.av-kpi-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--av-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.av-kpi-icon.primary { background-color: var(--av-primary-soft); color: var(--av-primary); }
+.av-kpi-icon.accent  { background-color: #FFF8E1; color: #E65100; }
+.av-kpi-icon.earth   { background-color: var(--av-earth-soft); color: var(--av-earth); }
+.av-kpi-icon.info    { background-color: var(--av-info-soft); color: var(--av-info); }
+
+.av-kpi-value {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--av-text);
+}
+
+.av-kpi-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--av-text-muted);
+  margin-top: 2px;
+}
+
+/* Badges / Etiquetas de Rol */
+.badge-rol {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--av-radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge-rol.administrador {
+  background-color: var(--av-primary-dark);
+  color: #FFFFFF;
+}
+
+.badge-rol.tecnico {
+  background-color: var(--av-info);
+  color: #FFFFFF;
+}
+
+.badge-rol.productor {
+  background-color: var(--av-earth);
+  color: #FFFFFF;
+}
+
+.badge-rol.comprador {
+  background-color: var(--av-accent);
+  color: var(--av-accent-text);
+  font-weight: 700;
+}
+
+/* Estados vacíos (Empty states) */
+.av-empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background-color: var(--av-surface);
+  border: 1px dashed var(--av-border);
+  border-radius: var(--av-radius-md);
+}
+
+.av-empty-icon {
+  font-size: 3rem;
+  color: var(--av-text-muted);
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   FORMULARIOS Y ALLAUTH (Login, Registro, Recuperación)
+   ========================================================================== */
+.form-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--av-text);
+  margin-bottom: 0.35rem;
+}
+
+.form-control, .form-select {
+  border: 1px solid var(--av-border);
+  border-radius: var(--av-radius-sm);
+  padding: 0.6rem 0.85rem;
+  font-size: 15px;
+  color: var(--av-text);
+  min-height: 44px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--av-primary);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.22);
+}
+
+.required-asterisk {
+  color: var(--av-danger);
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+/* Tarjetas selectoras de Rol (Registro) */
+.av-role-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+@media (min-width: 576px) {
+  .av-role-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.av-role-card {
+  border: 2px solid var(--av-border);
+  border-radius: var(--av-radius-md);
+  padding: 1.15rem 1rem;
+  cursor: pointer;
+  background-color: var(--av-surface);
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.av-role-card input[type="radio"] {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  accent-color: var(--av-primary);
+  width: 18px;
+  height: 18px;
+}
+
+.av-role-card i {
+  font-size: 2.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--av-text-muted);
+}
+
+.av-role-card.selected,
+.av-role-card:has(input:checked) {
+  border-color: var(--av-primary);
+  background-color: var(--av-primary-soft);
+}
+
+.av-role-card.selected i,
+.av-role-card:has(input:checked) i {
+  color: var(--av-primary);
+}
+
+/* Form allauth container */
+.form-allauth {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.form-allauth .card {
+  border-radius: var(--av-radius-lg);
+  border: 1px solid var(--av-border);
+}
+
 .form-allauth h1 {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.form-allauth label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-}
-
-.form-allauth input[type="text"],
-.form-allauth input[type="email"],
-.form-allauth input[type="password"],
-.form-allauth input[type="tel"],
-.form-allauth select,
-.form-allauth textarea {
-  display: block;
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ced4da;
-  border-radius: 0.375rem;
-  margin-bottom: 0.75rem;
-}
-
-.form-allauth input[type="radio"] {
-  margin-right: 0.35rem;
-}
-
-.form-allauth ul:has(input[type="radio"]),
-.form-allauth div:has(> label > input[type="radio"]) {
-  list-style: none;
-  padding-left: 0;
-  margin-bottom: 0.75rem;
-}
-
-.form-allauth .helptext,
-.form-allauth small {
-  display: block;
-  color: #6c757d;
-  font-size: 0.85rem;
-  margin-top: -0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.form-allauth ul.errorlist {
-  color: #b02a37;
-  list-style: none;
-  padding-left: 0;
+  font-weight: 700;
+  text-align: center;
   margin-bottom: 0.5rem;
 }
 
-.form-allauth form button,
-.form-allauth form [type="submit"] {
-  background-color: #2e7d32;
-  color: #fff;
-  border: 0;
-  padding: 0.5rem 1.25rem;
-  border-radius: 0.375rem;
+.form-allauth .form-intro {
+  text-align: center;
+  color: var(--av-text-muted);
+  font-size: 14px;
+  margin-bottom: 1.5rem;
 }
 
-.form-allauth form button:hover,
-.form-allauth form [type="submit"]:hover {
-  background-color: #1b5e20;
+/* Alertas con auto-cierre visual */
+.alert {
+  border-radius: var(--av-radius-sm);
+  border: none;
+  font-weight: 500;
+  font-size: 14px;
 }
-
-.form-allauth a {
-  color: #2e7d32;
-}
+.alert-success { background-color: var(--av-primary-soft); color: var(--av-primary-dark); }
+.alert-danger  { background-color: var(--av-danger-soft); color: var(--av-danger); }
+.alert-info    { background-color: var(--av-info-soft); color: var(--av-info); }

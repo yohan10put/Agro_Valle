@@ -104,7 +104,8 @@ class TecnicoTests(TestCase):
         tecnico.perfil.save()
         self.client.force_login(tecnico)
         respuesta = self.client.get(reverse('inicio'))
-        self.assertRedirects(respuesta, reverse('admin:index'))
+        self.assertEqual(respuesta.status_code, 200)
+        self.assertTemplateUsed(respuesta, 'cuentas/inicio_tecnico.html')
 
     def test_cambiar_rol_quita_el_panel(self):
         usuario = Usuario.objects.create_user('t', 't@ejemplo.com', 'ClaveSegura.2026')

@@ -15,12 +15,18 @@ def obtener_grupo_tecnicos():
 
 def sincronizar_permisos(perfil):
     """Técnico: entra al panel y pertenece al grupo Técnicos.
-    Otros roles: sin panel y fuera del grupo (salvo el superusuario)."""
+    Administrador / Superusuario: acceso al panel y fuera del grupo Técnicos.
+    Otros roles: sin panel y fuera del grupo."""
     usuario = perfil.usuario
     grupo = obtener_grupo_tecnicos()
 
     if perfil.rol == perfil.Rol.TECNICO:
         usuario.groups.add(grupo)
+        if not usuario.is_staff:
+            usuario.is_staff = True
+            usuario.save(update_fields=['is_staff'])
+    elif perfil.rol == perfil.Rol.ADMINISTRADOR or usuario.is_superuser:
+        usuario.groups.remove(grupo)
         if not usuario.is_staff:
             usuario.is_staff = True
             usuario.save(update_fields=['is_staff'])

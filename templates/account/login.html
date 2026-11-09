@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head_title %}Iniciar sesión{% endblock head_title %}
+
+{% block content %}
+<div class="row justify-content-center py-4">
+  <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+    <div class="card p-4 p-md-5 border-0 shadow-sm">
+      <!-- Logo y Encabezado -->
+      <div class="text-center mb-4">
+        <div class="av-kpi-icon primary mx-auto mb-2" style="width: 52px; height: 52px;">
+          <i class="bi bi-sprout-fill fs-3"></i>
+        </div>
+        <h1 class="h3 fw-bold mb-1">Ingresa a tu cuenta</h1>
+        <p class="text-muted small mb-0">Bienvenido a AgroValle. Ingresa con tu correo registrado.</p>
+      </div>
+
+      <!-- Formulario de inicio de sesión -->
+      <form method="post" action="{% url 'account_login' %}" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger py-2 px-3 small mb-3">
+            <i class="bi bi-exclamation-circle-fill me-1"></i>
+            {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- Correo electrónico -->
+        <div class="mb-3">
+          <label for="id_login" class="form-label">
+            Correo electrónico <span class="required-asterisk">*</span>
+          </label>
+          <div class="input-group">
+            <span class="input-group-text bg-light text-muted border-end-0">
+              <i class="bi bi-envelope"></i>
+            </span>
+            <input type="email" name="login" id="id_login" class="form-control border-start-0 ps-0 {% if form.login.errors %}is-invalid{% endif %}" 
+                   placeholder="ejemplo@correo.com" value="{{ form.login.value|default:'' }}" required autofocus>
+          </div>
+          {% if form.login.errors %}
+            <div class="text-danger small mt-1">{% for e in form.login.errors %}{{ e }}{% endfor %}</div>
+          {% endif %}
+        </div>
+
+        <!-- Contraseña con botón mostrar/ocultar -->
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <label for="id_password" class="form-label mb-0">
+              Contraseña <span class="required-asterisk">*</span>
+            </label>
+            <a href="{% url 'account_reset_password' %}" class="small text-decoration-none" style="color: var(--av-primary); font-size: 13px;">
+              ¿Olvidaste tu contraseña?
+            </a>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text bg-light text-muted border-end-0">
+              <i class="bi bi-lock"></i>
+            </span>
+            <input type="password" name="password" id="id_password" class="form-control border-start-0 border-end-0 ps-0 {% if form.password.errors %}is-invalid{% endif %}" 
+                   placeholder="Ingresa tu contraseña" required>
+            <button class="btn btn-outline-secondary border-start-0 bg-light" type="button" id="btnTogglePassword" style="border-color: var(--av-border);" title="Mostrar u ocultar contraseña">
+              <i class="bi bi-eye" id="iconTogglePassword"></i>
+            </button>
+          </div>
+          {% if form.password.errors %}
+            <div class="text-danger small mt-1">{% for e in form.password.errors %}{{ e }}{% endfor %}</div>
+          {% endif %}
+        </div>
+
+        <!-- Recordarme -->
+        {% if form.remember %}
+          <div class="form-check form-switch mb-4">
+            <input class="form-check-input" type="checkbox" role="switch" name="remember" id="id_remember" checked>
+            <label class="form-check-label small text-muted" for="id_remember">Recordar mi sesión en este dispositivo</label>
+          </div>
+        {% endif %}
+
+        {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+
+        <!-- Botón ancho completo -->
+        <button type="submit" class="btn btn-success w-100 py-2 shadow-sm mb-3">
+          <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar sesión
+        </button>
+
+        <!-- Enlace a registro -->
+        <div class="text-center pt-2 border-top">
+          <span class="small text-muted">¿Todavía no tienes una cuenta?</span>
+          <a href="{% url 'account_signup' %}" class="small fw-semibold text-decoration-none ms-1" style="color: var(--av-primary);">
+            Regístrate aquí
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block extra_body %}
+<script>
+  // Botón mostrar / ocultar contraseña
+  document.getElementById('btnTogglePassword').addEventListener('click', function() {
+    var passInput = document.getElementById('id_password');
+    var icon = document.getElementById('iconTogglePassword');
+    if (passInput.type === 'password') {
+      passInput.type = 'text';
+      icon.classList.remove('bi-eye');
+      icon.classList.add('bi-eye-slash');
+    } else {
+      passInput.type = 'password';
+      icon.classList.remove('bi-eye-slash');
+      icon.classList.add('bi-eye');
+    }
+  });
+</script>
+{% endblock extra_body %}

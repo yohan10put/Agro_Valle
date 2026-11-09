@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head_title %}Crear cuenta{% endblock head_title %}
+
+{% block content %}
+<div class="row justify-content-center py-3 py-md-4">
+  <div class="col-12 col-md-10 col-lg-8">
+    <div class="card p-4 p-md-5 border-0 shadow-sm">
+      <!-- Encabezado -->
+      <div class="text-center mb-4">
+        <div class="av-kpi-icon primary mx-auto mb-2" style="width: 52px; height: 52px;">
+          <i class="bi bi-sprout-fill fs-3"></i>
+        </div>
+        <h1 class="h3 fw-bold mb-1">Crea tu cuenta en AgroValle</h1>
+        <p class="text-muted small mb-0">Únete a la comunidad de productores y compradores de los valles.</p>
+      </div>
+
+      <form method="post" action="{% url 'account_signup' %}" novalidate id="formRegistro">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger py-2 px-3 small mb-3">
+            <i class="bi bi-exclamation-circle-fill me-1"></i>
+            {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- PASO 1: Elegir Rol con tarjetas grandes -->
+        <div class="mb-4">
+          <label class="form-label d-block text-center fw-bold fs-6 mb-2">
+            Paso 1: ¿Cómo deseas participar en AgroValle? <span class="required-asterisk">*</span>
+          </label>
+          
+          <div class="av-role-grid">
+            <!-- Tarjeta Productor -->
+            <label class="av-role-card {% if form.rol.value == 'productor' or not form.rol.value %}selected{% endif %}" id="cardRolProductor">
+              <input type="radio" name="rol" value="productor" id="rol_productor" 
+                     {% if form.rol.value == 'productor' or not form.rol.value %}checked{% endif %}>
+              <i class="bi bi-flower2"></i>
+              <div class="fw-bold fs-5 text-dark mb-1">Soy Productor</div>
+              <p class="small text-muted mb-0">
+                Cultivo parcelas y quiero recomendaciones técnicas paso a paso y vender mi cosecha.
+              </p>
+            </label>
+
+            <!-- Tarjeta Comprador -->
+            <label class="av-role-card {% if form.rol.value == 'comprador' %}selected{% endif %}" id="cardRolComprador">
+              <input type="radio" name="rol" value="comprador" id="rol_comprador" 
+                     {% if form.rol.value == 'comprador' %}checked{% endif %}>
+              <i class="bi bi-basket-fill"></i>
+              <div class="fw-bold fs-5 text-dark mb-1">Soy Comprador</div>
+              <p class="small text-muted mb-0">
+                Busco hortalizas y granos de calidad directo del agricultor a precio justo.
+              </p>
+            </label>
+          </div>
+          {% if form.rol.errors %}
+            <div class="text-danger small mt-1 text-center">{% for e in form.rol.errors %}{{ e }}{% endfor %}</div>
+          {% endif %}
+        </div>
+
+        <hr class="my-4 text-muted opacity-25">
+
+        <!-- PASO 2: Datos Personales -->
+        <div class="mb-3">
+          <h2 class="h6 text-uppercase fw-bold text-success mb-3" style="letter-spacing: 0.05em;">
+            Paso 2: Tus datos de contacto y acceso
+          </h2>
+
+          <!-- Nombre y Apellido -->
+          <div class="row g-3 mb-3">
+            <div class="col-sm-6">
+              <label for="id_first_name" class="form-label">
+                Nombre <span class="required-asterisk">*</span>
+              </label>
+              <input type="text" name="first_name" id="id_first_name" 
+                     class="form-control {% if form.first_name.errors %}is-invalid{% endif %}" 
+                     placeholder="Ej. Juan" value="{{ form.first_name.value|default:'' }}" required>
+              {% if form.first_name.errors %}
+                <div class="text-danger small mt-1">{% for e in form.first_name.errors %}{{ e }}{% endfor %}</div>
+              {% endif %}
+            </div>
+            <div class="col-sm-6">
+              <label for="id_last_name" class="form-label">
+                Apellido <span class="required-asterisk">*</span>
+              </label>
+              <input type="text" name="last_name" id="id_last_name" 
+                     class="form-control {% if form.last_name.errors %}is-invalid{% endif %}" 
+                     placeholder="Ej. Pérez" value="{{ form.last_name.value|default:'' }}" required>
+              {% if form.last_name.errors %}
+                <div class="text-danger small mt-1">{% for e in form.last_name.errors %}{{ e }}{% endfor %}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Correo electrónico -->
+          <div class="mb-3">
+            <label for="id_email" class="form-label">
+              Correo electrónico <span class="required-asterisk">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text bg-light text-muted border-end-0">
+                <i class="bi bi-envelope"></i>
+              </span>
+              <input type="email" name="email" id="id_email" 
+                     class="form-control border-start-0 ps-0 {% if form.email.errors %}is-invalid{% endif %}" 
+                     placeholder="tu_correo@ejemplo.com" value="{{ form.email.value|default:'' }}" required>
+            </div>
+            <div class="form-text small">Te enviaremos un correo de verificación para activar tu cuenta.</div>
+            {% if form.email.errors %}
+              <div class="text-danger small mt-1">{% for e in form.email.errors %}{{ e }}{% endfor %}</div>
+            {% endif %}
+          </div>
+
+          <!-- Teléfono / WhatsApp -->
+          <div class="mb-3">
+            <label for="id_telefono" class="form-label">
+              Teléfono / WhatsApp <span class="required-asterisk">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text bg-light text-muted border-end-0 fw-semibold">
+                <i class="bi bi-whatsapp text-success me-1"></i> +591
+              </span>
+              <input type="tel" name="telefono" id="id_telefono" 
+                     class="form-control border-start-0 ps-0 {% if form.telefono.errors %}is-invalid{% endif %}" 
+                     placeholder="70000000" value="{{ form.telefono.value|default:'' }}" required>
+            </div>
+            <div class="form-text small">Te contactaremos por WhatsApp para coordinar pedidos y cosechas.</div>
+            {% if form.telefono.errors %}
+              <div class="text-danger small mt-1">{% for e in form.telefono.errors %}{{ e }}{% endfor %}</div>
+            {% endif %}
+          </div>
+
+          <!-- Comunidad / Zona (Solo visible para productores) -->
+          <div class="mb-3" id="campoComunidadWrapper">
+            <label for="id_comunidad" class="form-label">
+              Comunidad o zona de producción <span class="required-asterisk" id="asteriscoComunidad">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text bg-light text-muted border-end-0">
+                <i class="bi bi-geo-alt"></i>
+              </span>
+              <input type="text" name="comunidad" id="id_comunidad" 
+                     class="form-control border-start-0 ps-0 {% if form.comunidad.errors %}is-invalid{% endif %}" 
+                     placeholder="Ej. Guadalupe, Pampa Grande, Saipina, Comarapa..." value="{{ form.comunidad.value|default:'' }}">
+            </div>
+            <div class="form-text small">Indica en qué comunidad o valle están tus parcelas.</div>
+            {% if form.comunidad.errors %}
+              <div class="text-danger small mt-1">{% for e in form.comunidad.errors %}{{ e }}{% endfor %}</div>
+            {% endif %}
+          </div>
+
+          <!-- Contraseña y confirmación -->
+          <div class="row g-3 mb-3">
+            <div class="col-sm-6">
+              <label for="id_password1" class="form-label">
+                Contraseña <span class="required-asterisk">*</span>
+              </label>
+              <input type="password" name="password1" id="id_password1" 
+                     class="form-control {% if form.password1.errors %}is-invalid{% endif %}" 
+                     placeholder="Crea una contraseña segura" required>
+              {% if form.password1.errors %}
+                <div class="text-danger small mt-1">{% for e in form.password1.errors %}{{ e }}{% endfor %}</div>
+              {% endif %}
+            </div>
+            <div class="col-sm-6">
+              <label for="id_password2" class="form-label">
+                Confirmar contraseña <span class="required-asterisk">*</span>
+              </label>
+              <input type="password" name="password2" id="id_password2" 
+                     class="form-control {% if form.password2.errors %}is-invalid{% endif %}" 
+                     placeholder="Repite tu contraseña" required>
+              {% if form.password2.errors %}
+                <div class="text-danger small mt-1">{% for e in form.password2.errors %}{{ e }}{% endfor %}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Indicador en vivo de requisitos de contraseña -->
+          <div class="p-3 bg-light rounded-3 mb-4 border">
+            <div class="small fw-semibold text-muted mb-2">Requisitos de contraseña:</div>
+            <ul class="list-unstyled small mb-0 d-flex flex-column gap-1">
+              <li id="reqLongitud" class="text-muted"><i class="bi bi-circle me-1"></i> Al menos 8 caracteres</li>
+              <li id="reqCoincidencia" class="text-muted"><i class="bi bi-circle me-1"></i> Las dos contraseñas deben coincidir</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Botón crear cuenta -->
+        <button type="submit" class="btn btn-success w-100 py-2 shadow-sm mb-3">
+          <i class="bi bi-check-circle-fill me-1"></i> Crear mi cuenta en AgroValle
+        </button>
+
+        <!-- Enlace a login -->
+        <div class="text-center pt-2 border-top">
+          <span class="small text-muted">¿Ya tienes una cuenta registrada?</span>
+          <a href="{% url 'account_login' %}" class="small fw-semibold text-decoration-none ms-1" style="color: var(--av-primary);">
+            Inicia sesión aquí
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block extra_body %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var radioProductor = document.getElementById('rol_productor');
+    var radioComprador = document.getElementById('rol_comprador');
+    var cardProductor = document.getElementById('cardRolProductor');
+    var cardComprador = document.getElementById('cardRolComprador');
+    var campoComunidadWrapper = document.getElementById('campoComunidadWrapper');
+
+    function actualizarRol() {
+      if (radioProductor.checked) {
+        cardProductor.classList.add('selected');
+        cardComprador.classList.remove('selected');
+        campoComunidadWrapper.style.display = 'block';
+      } else {
+        cardComprador.classList.add('selected');
+        cardProductor.classList.remove('selected');
+        campoComunidadWrapper.style.display = 'none';
+      }
+    }
+
+    radioProductor.addEventListener('change', actualizarRol);
+    radioComprador.addEventListener('change', actualizarRol);
+    actualizarRol();
+
+    // Verificación en vivo de contraseñas
+    var pass1 = document.getElementById('id_password1');
+    var pass2 = document.getElementById('id_password2');
+    var reqLongitud = document.getElementById('reqLongitud');
+    var reqCoincidencia = document.getElementById('reqCoincidencia');
+
+    function verificarPassword() {
+      var val1 = pass1.value;
+      var val2 = pass2.value;
+
+      if (val1.length >= 8) {
+        reqLongitud.className = 'text-success fw-medium';
+        reqLongitud.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Al menos 8 caracteres';
+      } else {
+        reqLongitud.className = 'text-muted';
+        reqLongitud.innerHTML = '<i class="bi bi-circle me-1"></i> Al menos 8 caracteres';
+      }
+
+      if (val1 && val2 && val1 === val2) {
+        reqCoincidencia.className = 'text-success fw-medium';
+        reqCoincidencia.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Las contraseñas coinciden';
+      } else {
+        reqCoincidencia.className = 'text-muted';
+        reqCoincidencia.innerHTML = '<i class="bi bi-circle me-1"></i> Las dos contraseñas deben coincidir';
+      }
+    }
+
+    pass1.addEventListener('input', verificarPassword);
+    pass2.addEventListener('input', verificarPassword);
+  });
+</script>
+{% endblock extra_body %}

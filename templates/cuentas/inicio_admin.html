@@ -1,24 +1,173 @@
 {% extends "base.html" %}
 
-{% block head_title %}Administración — AgroValle{% endblock head_title %}
+{% block head_title %}Panel de Administración{% endblock head_title %}
 
 {% block content %}
-<h1 class="h3 mb-4">Administración de AgroValle</h1>
-
-<div class="row g-3">
-  <div class="col-md-6">
-    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
-      <h2 class="h5">Registrar técnico</h2>
-      <p class="text-secondary">Da de alta a un técnico; recibirá un correo para crear su contraseña.</p>
-      <a href="{% url 'nuevo_tecnico' %}" class="btn btn-success">Registrar técnico</a>
-    </div></div>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <div class="d-flex align-items-center gap-2 mb-1">
+      <h1 class="h3 fw-bold mb-0">Hola, {{ user.first_name|default:user.username }}</h1>
+      <span class="badge-rol administrador">Administrador</span>
+    </div>
+    <p class="text-muted small mb-0">Gestión general de AgroValle y supervisión de la plataforma.</p>
   </div>
-  <div class="col-md-6">
-    <div class="card h-100 border-0 shadow-sm"><div class="card-body">
-      <h2 class="h5">Panel de gestión</h2>
-      <p class="text-secondary">Usuarios, perfiles y catálogo de cultivos.</p>
-      <a href="{% url 'admin:index' %}" class="btn btn-outline-success">Abrir panel</a>
-    </div></div>
+  <div class="d-flex gap-2">
+    <a href="{% url 'nuevo_tecnico' %}" class="btn btn-success shadow-sm">
+      <i class="bi bi-person-plus-fill"></i> Registrar técnico
+    </a>
+    <a href="{% url 'admin:index' %}" class="btn btn-outline-success">
+      <i class="bi bi-sliders"></i> Panel de gestión
+    </a>
+  </div>
+</div>
+
+<!-- Fila de Indicadores (KPIs) -->
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3">
+    <div class="av-kpi-card h-100">
+      <div class="av-kpi-icon info">
+        <i class="bi bi-person-gear"></i>
+      </div>
+      <div>
+        <div class="av-kpi-value">{{ kpis.tecnicos }}</div>
+        <div class="av-kpi-label">Técnicos agrónomos</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="av-kpi-card h-100">
+      <div class="av-kpi-icon earth">
+        <i class="bi bi-flower2"></i>
+      </div>
+      <div>
+        <div class="av-kpi-value">{{ kpis.productores }}</div>
+        <div class="av-kpi-label">Productores registrados</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="av-kpi-card h-100">
+      <div class="av-kpi-icon accent">
+        <i class="bi bi-basket"></i>
+      </div>
+      <div>
+        <div class="av-kpi-value">{{ kpis.compradores }}</div>
+        <div class="av-kpi-label">Compradores activos</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="av-kpi-card h-100">
+      <div class="av-kpi-icon primary">
+        <i class="bi bi-sprout"></i>
+      </div>
+      <div>
+        <div class="av-kpi-value">{{ kpis.cultivos }}</div>
+        <div class="av-kpi-label">Cultivos en catálogo</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Accesos Rápidos y Actividad Reciente -->
+<div class="row g-4">
+  <!-- Accesos rápidos -->
+  <div class="col-lg-5">
+    <div class="card p-4 border-0 shadow-sm h-100">
+      <h2 class="h5 fw-bold mb-3">Accesos directos</h2>
+      <div class="d-flex flex-column gap-2">
+        <a href="{% url 'nuevo_tecnico' %}" class="av-card av-card-clickable p-3 d-flex align-items-center justify-content-between text-decoration-none">
+          <div class="d-flex align-items-center gap-3">
+            <div class="av-kpi-icon info" style="width: 42px; height: 42px; font-size: 1.25rem;">
+              <i class="bi bi-person-plus"></i>
+            </div>
+            <div>
+              <div class="fw-semibold text-dark">Registrar nuevo técnico</div>
+              <div class="small text-muted">Envía invitación para acceso al catálogo</div>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right text-muted"></i>
+        </a>
+
+        <a href="/admin/auth/user/" class="av-card av-card-clickable p-3 d-flex align-items-center justify-content-between text-decoration-none">
+          <div class="d-flex align-items-center gap-3">
+            <div class="av-kpi-icon primary" style="width: 42px; height: 42px; font-size: 1.25rem;">
+              <i class="bi bi-people"></i>
+            </div>
+            <div>
+              <div class="fw-semibold text-dark">Gestionar usuarios y roles</div>
+              <div class="small text-muted">Productores, compradores y técnicos</div>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right text-muted"></i>
+        </a>
+
+        <a href="/admin/cultivos/cultivo/" class="av-card av-card-clickable p-3 d-flex align-items-center justify-content-between text-decoration-none">
+          <div class="d-flex align-items-center gap-3">
+            <div class="av-kpi-icon earth" style="width: 42px; height: 42px; font-size: 1.25rem;">
+              <i class="bi bi-sprout"></i>
+            </div>
+            <div>
+              <div class="fw-semibold text-dark">Catálogo de cultivos y etapas</div>
+              <div class="small text-muted">Papa, maíz, etapas fenológicas y dosis</div>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right text-muted"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actividad reciente de usuarios -->
+  <div class="col-lg-7">
+    <div class="card p-4 border-0 shadow-sm h-100">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 fw-bold mb-0">Usuarios registrados recientemente</h2>
+        <a href="/admin/auth/user/" class="small text-decoration-none" style="color: var(--av-primary);">Ver todos</a>
+      </div>
+
+      {% if ultimos_usuarios %}
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead class="table-light small text-muted">
+              <tr>
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Fecha de registro</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for u in ultimos_usuarios %}
+                <tr>
+                  <td>
+                    <div class="fw-medium text-dark">{{ u.get_full_name|default:u.username }}</div>
+                    <div class="small text-muted">{{ u.email }}</div>
+                  </td>
+                  <td>
+                    {% if u.is_superuser or u.perfil.rol == 'administrador' %}
+                      <span class="badge-rol administrador">Admin</span>
+                    {% elif u.perfil.rol == 'tecnico' %}
+                      <span class="badge-rol tecnico">Técnico</span>
+                    {% elif u.perfil.rol == 'comprador' %}
+                      <span class="badge-rol comprador">Comprador</span>
+                    {% else %}
+                      <span class="badge-rol productor">Productor</span>
+                    {% endif %}
+                  </td>
+                  <td class="small text-muted">
+                    {{ u.date_joined|date:"d/m/Y H:i" }}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="text-center py-4 text-muted small">
+          No hay actividad reciente.
+        </div>
+      {% endif %}
+    </div>
   </div>
 </div>
 {% endblock content %}

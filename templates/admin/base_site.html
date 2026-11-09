@@ -1,0 +1,190 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       AgroValle — Identidad visual para el Admin de Django
+       Sobrescritura completa de variables y paleta verde valle (#2E7D32)
+       ========================================================================== */
+    :root, [data-theme="light"] {
+      --primary: #2E7D32;
+      --secondary: #1B5E20;
+      --accent: #F9A825;
+      --primary-fg: #FFFFFF;
+      --body-fg: #1C2B1E;
+      --body-bg: #F6F8F5;
+      --body-quiet-color: #4B5B4E;
+      --body-loud-color: #1C2B1E;
+      --header-color: #FFFFFF;
+      --header-bg: #2E7D32;
+      --header-link-color: #FFFFFF;
+      --breadcrumbs-fg: #4B5B4E;
+      --breadcrumbs-link-fg: #1B5E20;
+      --breadcrumbs-bg: #E8F5E9;
+      --link-fg: #2E7D32;
+      --link-hover-color: #1B5E20;
+      --link-selected-fg: #1B5E20;
+      --hairline-color: #D7DED8;
+      --border-color: #D7DED8;
+      --darkened-bg: #EAEFEA;
+      --selected-bg: #E8F5E9;
+      --selected-row: #E8F5E9;
+      --button-fg: #FFFFFF;
+      --button-bg: #2E7D32;
+      --button-hover-bg: #1B5E20;
+      --default-button-bg: #2E7D32;
+      --default-button-hover-bg: #1B5E20;
+      --close-button-bg: #6D4C41;
+      --close-button-hover-bg: #4E342E;
+      --delete-button-bg: #C62828;
+      --delete-button-hover-bg: #B71C1C;
+      --message-success-bg: #E8F5E9;
+      --message-warning-bg: #FFF8E1;
+      --message-error-bg: #FFEBEE;
+      --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* Tema Oscuro */
+    [data-theme="dark"] {
+      --primary: #66BB6A;
+      --secondary: #81C784;
+      --accent: #FBC02D;
+      --primary-fg: #121A13;
+      --body-fg: #E6EEE7;
+      --body-bg: #121A13;
+      --body-quiet-color: #A5D6A7;
+      --body-loud-color: #FFFFFF;
+      --header-color: #E6EEE7;
+      --header-bg: #1C261D;
+      --header-link-color: #E6EEE7;
+      --breadcrumbs-fg: #A5D6A7;
+      --breadcrumbs-link-fg: #81C784;
+      --breadcrumbs-bg: #162017;
+      --link-fg: #81C784;
+      --link-hover-color: #A5D6A7;
+      --border-color: #2E3E30;
+      --darkened-bg: #1C261D;
+      --selected-bg: #243527;
+      --selected-row: #243527;
+      --button-bg: #2E7D32;
+      --button-hover-bg: #388E3C;
+      --default-button-bg: #2E7D32;
+    }
+
+    body {
+      font-family: var(--font-family-primary);
+      letter-spacing: -0.01em;
+    }
+
+    #header {
+      background: var(--header-bg);
+      color: #FFFFFF;
+      padding: 12px 24px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    #branding h1 {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    #branding h1 a:link, #branding h1 a:visited {
+      color: #FFFFFF;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #user-tools {
+      color: rgba(255, 255, 255, 0.95);
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    #user-tools a:link, #user-tools a:visited {
+      color: #FFFFFF;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+    }
+    #user-tools a:hover {
+      border-bottom-style: solid;
+    }
+
+    /* Módulos y tablas */
+    .module h2, .module caption, .inline-group h2 {
+      background: var(--primary) !important;
+      color: #FFFFFF !important;
+      font-weight: 600;
+      border-radius: 6px 6px 0 0;
+      padding: 10px 14px;
+    }
+
+    /* Botones accesibles */
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+      background: var(--button-bg) !important;
+      color: #FFFFFF !important;
+      border: 0;
+      border-radius: 6px;
+      font-weight: 600;
+      padding: 8px 16px;
+      transition: background 0.15s ease;
+    }
+
+    .button:hover, input[type=submit]:hover, input[type=button]:hover, a.button:hover {
+      background: var(--button-hover-bg) !important;
+    }
+
+    .button.default, input[type=submit].default, .submit-row input.default {
+      background: var(--default-button-bg) !important;
+      border: 1px solid var(--secondary) !important;
+    }
+
+    /* Enlace de regreso al sitio */
+    .btn-volver-sitio {
+      background: rgba(255, 255, 255, 0.18);
+      color: #FFFFFF !important;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 12px;
+      transition: background 0.15s ease;
+    }
+    .btn-volver-sitio:hover {
+      background: rgba(255, 255, 255, 0.28);
+    }
+  </style>
+{% endblock %}
+
+{% block branding %}
+<div id="branding">
+  <h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+      <span>🌱 AgroValle</span>
+      <span style="font-size: 13px; opacity: 0.9; font-weight: 400; margin-left: 4px;">| Panel de gestión</span>
+    </a>
+  </h1>
+</div>
+{% endblock %}
+
+{% block userlinks %}
+  <a href="/inicio/" class="btn-volver-sitio">
+    ← Volver a AgroValle
+  </a>
+  {{ block.super }}
+{% endblock %}

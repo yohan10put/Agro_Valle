@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block head_title %}Panel Técnico{% endblock head_title %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <div class="d-flex align-items-center gap-2 mb-1">
+      <h1 class="h3 fw-bold mb-0">Hola, {{ user.first_name|default:user.username }}</h1>
+      <span class="badge-rol tecnico">Técnico Agrónomo</span>
+    </div>
+    <p class="text-muted small mb-0">Gestión técnica del catálogo de cultivos, etapas fenológicas e insumos.</p>
+  </div>
+  <div>
+    <a href="{% url 'admin:index' %}" class="btn btn-outline-success">
+      <i class="bi bi-sliders"></i> Panel de gestión
+    </a>
+  </div>
+</div>
+
+<!-- Fila de KPIs Técnicos -->
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3">
+    <div class="av-kpi-card h-100">
+      <div class="av-kpi-icon primary">
+        <i class="bi bi-sprout"></i>
+      </div>
+      <div>
+        <div class="av-kpi-value">{{ kpis.cultivos_activos }}</div>
+        <div class="av-kpi-label">Cultivos activos</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="av-kpi-card h-100">
+      <div class="av-kpi-icon earth">
+        <i class="bi bi-list-ol"></i>
+      </div>
+      <div>
+        <div class="av-kpi-value">{{ kpis.total_etapas }}</div>
+        <div class="av-kpi-label">Etapas configuradas</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="av-kpi-card h-100">
+      <div class="av-kpi-icon info">
+        <i class="bi bi-flask"></i>
+      </div>
+      <div>
+        <div class="av-kpi-value">{{ kpis.total_productos }}</div>
+        <div class="av-kpi-label">Insumos y productos</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="av-kpi-card h-100">
+      <div class="av-kpi-icon {% if kpis.etapas_sin_recs > 0 %}accent{% else %}primary{% endif %}">
+        <i class="bi bi-clipboard-check"></i>
+      </div>
+      <div>
+        <div class="av-kpi-value">{{ kpis.etapas_sin_recs }}</div>
+        <div class="av-kpi-label">Etapas sin dosis</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Accesos Directos al Catálogo -->
+<div class="row g-4 mb-4">
+  <div class="col-md-4">
+    <a href="/admin/cultivos/cultivo/" class="card h-100 p-4 border-0 shadow-sm text-decoration-none av-card-clickable">
+      <div class="d-flex align-items-center gap-3 mb-2">
+        <div class="av-kpi-icon primary">
+          <i class="bi bi-sprout"></i>
+        </div>
+        <div>
+          <h2 class="h5 fw-bold text-dark mb-0">Cultivos</h2>
+          <span class="small text-muted">Papa, maíz, zanahoria...</span>
+        </div>
+      </div>
+      <p class="small text-muted mb-0">
+        Agregar nuevos cultivos al catálogo y definir sus características generales.
+      </p>
+    </a>
+  </div>
+
+  <div class="col-md-4">
+    <a href="/admin/cultivos/etapa/" class="card h-100 p-4 border-0 shadow-sm text-decoration-none av-card-clickable">
+      <div class="d-flex align-items-center gap-3 mb-2">
+        <div class="av-kpi-icon earth">
+          <i class="bi bi-calendar-range"></i>
+        </div>
+        <div>
+          <h2 class="h5 fw-bold text-dark mb-0">Etapas y Dosis</h2>
+          <span class="small text-muted">Días y recomendaciones</span>
+        </div>
+      </div>
+      <p class="small text-muted mb-0">
+        Configurar las etapas fenológicas, días de duración y qué productos aplicar en cada una.
+      </p>
+    </a>
+  </div>
+
+  <div class="col-md-4">
+    <a href="/admin/cultivos/producto/" class="card h-100 p-4 border-0 shadow-sm text-decoration-none av-card-clickable">
+      <div class="d-flex align-items-center gap-3 mb-2">
+        <div class="av-kpi-icon info">
+          <i class="bi bi-flask"></i>
+        </div>
+        <div>
+          <h2 class="h5 fw-bold text-dark mb-0">Insumos Agrícolas</h2>
+          <span class="small text-muted">Fertilizantes y abonos</span>
+        </div>
+      </div>
+      <p class="small text-muted mb-0">
+        Registrar productos fitosanitarios con sus tipos y unidades de medida (g, kg, L, ml).
+      </p>
+    </a>
+  </div>
+</div>
+
+<!-- Resumen de Cultivos Registrados -->
+<div class="card p-4 border-0 shadow-sm">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h5 fw-bold mb-0">Cultivos en el catálogo</h2>
+    <a href="/admin/cultivos/cultivo/add/" class="btn btn-sm btn-success">
+      <i class="bi bi-plus-circle me-1"></i> Nuevo cultivo
+    </a>
+  </div>
+
+  {% if cultivos %}
+    <div class="table-responsive">
+      <table class="table align-middle mb-0">
+        <thead class="table-light small text-muted">
+          <tr>
+            <th>Cultivo</th>
+            <th>Etapas configuradas</th>
+            <th>Duración total (días)</th>
+            <th>Estado</th>
+            <th class="text-end">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in cultivos %}
+            <tr>
+              <td>
+                <div class="fw-semibold text-dark">{{ c.nombre }}</div>
+                <div class="small text-muted text-truncate" style="max-width: 260px;">{{ c.descripcion|default:'Sin descripción' }}</div>
+              </td>
+              <td>
+                <span class="badge bg-light text-dark border">{{ c.etapas.count }} etapas</span>
+              </td>
+              <td class="tabular-nums fw-medium">
+                {{ c.duracion_total }} días
+              </td>
+              <td>
+                {% if c.activo %}
+                  <span class="badge bg-success-subtle text-success border border-success-subtle">Activo</span>
+                {% else %}
+                  <span class="badge bg-secondary-subtle text-secondary">Inactivo</span>
+                {% endif %}
+              </td>
+              <td class="text-end">
+                <a href="/admin/cultivos/cultivo/{{ c.id }}/change/" class="btn btn-sm btn-outline-secondary">
+                  <i class="bi bi-pencil me-1"></i> Editar
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="av-empty-state">
+      <div class="av-empty-icon"><i class="bi bi-sprout"></i></div>
+      <h3 class="h5 fw-bold mb-1">Aún no hay cultivos registrados</h3>
+      <p class="text-muted small mb-3">Comienza creando el primer cultivo para que los productores puedan seleccionarlo.</p>
+      <a href="/admin/cultivos/cultivo/add/" class="btn btn-success">
+        <i class="bi bi-plus-circle me-1"></i> Agregar primer cultivo
+      </a>
+    </div>
+  {% endif %}
+</div>
+{% endblock content %}
