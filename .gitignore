@@ -1,0 +1,33 @@
+# Entornos virtuales
+venv/
+env/
+.venv/
+ENV/
+
+# Variables de entorno y credenciales
+.env
+.env.local
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Base de datos local
+*.sqlite3
+db.sqlite3
+
+# Logs
+*.log
+
+# Archivos de IDE y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
